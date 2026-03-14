@@ -24,7 +24,6 @@ const stateSection = document.getElementById("stateSection");
 const stateInner = document.getElementById("stateInner");
 const stateMessage = document.getElementById("stateMessage");
 const spinnerOverlay = document.getElementById("spinnerOverlay");
-const spinnerText = spinnerOverlay ? spinnerOverlay.querySelector(".spinner-text") : null;
 const weatherIconEl = document.getElementById("weatherIcon");
 
 function setTheme(theme) {
@@ -60,8 +59,9 @@ function showState(message, { loading = false, isError = false } = {}) {
     stateMessage.hidden = loading;
     if (spinnerOverlay) {
         spinnerOverlay.hidden = !loading;
-        if (loading && spinnerText) {
-            spinnerText.textContent = message;
+        if (loading) {
+            const spinnerText = spinnerOverlay.querySelector(".spinner-text");
+            if (spinnerText) spinnerText.textContent = message;
         }
     }
 }
@@ -129,9 +129,11 @@ function renderWeather(data) {
         sunTimesEl.textContent = "Sunrise — • Sunset —";
     }
 
-    // Re-trigger card animation
-    weatherCard.hidden = true;
-    weatherCard.offsetHeight; // force reflow
+    // Re-trigger card animation by toggling a class
+    weatherCard.classList.remove("card-animate");
+    requestAnimationFrame(() => {
+        weatherCard.classList.add("card-animate");
+    });
     weatherCard.hidden = false;
 }
 

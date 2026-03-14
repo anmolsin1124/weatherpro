@@ -216,8 +216,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  animation: fadeSlideIn 0.4s ease-out;
   transition: box-shadow 0.3s ease;
+}
+
+.card.card-animate {
+  animation: fadeSlideIn 0.4s ease-out;
 }
 
 .card:hover {
