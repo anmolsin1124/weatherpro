@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minimal Weather</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <h1 class="logo">Weather<span>Now</span></h1>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span class="theme-icon">☾</span>
+        </button>
+      </header>
+
+      <main class="app-main">
+        <section class="search-section">
+          <form id="searchForm" class="search-form" autocomplete="off">
+            <input
+              type="text"
+              id="cityInput"
+              class="search-input"
+              placeholder="Search city (e.g. Delhi, London)"
+              aria-label="City name"
+              required
+            />
+            <button type="submit" class="search-button">Search</button>
+            <button
+              type="button"
+              class="geo-button"
+              id="geoButton"
+              title="Use current location"
+            >
+              ⦿
+            </button>
+          </form>
+          <p class="hint">
+            Real-time weather powered by OpenWeather. Minimal. Fast.
+          </p>
+        </section>
+
+        <section class="card" id="weatherCard" hidden>
+          <div class="card-header">
+            <div>
+              <h2 id="cityName" class="city-name">—</h2>
+              <p id="country" class="country-code">—</p>
+            </div>
+            <p id="updatedAt" class="updated-at">Updated just now</p>
+          </div>
+
+          <div class="card-main">
+            <div class="temp-block">
+              <p id="temperature" class="temperature">—°</p>
+              <p id="feelsLike" class="feels-like">Feels like —°</p>
+            </div>
+            <div class="meta-block">
+              <div class="meta-row">
+                <span class="meta-label">Condition</span>
+                <span id="condition" class="meta-value">—</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Humidity</span>
+                <span id="humidity" class="meta-value">—%</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Wind</span>
+                <span id="wind" class="meta-value">— km/h</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Pressure</span>
+                <span id="pressure" class="meta-value">— hPa</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="pill" id="minMax">— / —°</div>
+            <div class="pill" id="sunTimes">Sunrise — • Sunset —</div>
+          </div>
+        </section>
+
+        <section class="state" id="stateSection">
+          <div class="state-inner" id="stateInner">
+            <div class="loader" id="loader" hidden></div>
+            <p id="stateMessage">Search for a city to see the weather.</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p>
+          Data by
+          <a
+            href="https://openweathermap.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >OpenWeather</a
+          >
+        </p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
