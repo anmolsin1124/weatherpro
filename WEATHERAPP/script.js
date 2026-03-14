@@ -23,7 +23,8 @@ const sunTimesEl = document.getElementById("sunTimes");
 const stateSection = document.getElementById("stateSection");
 const stateInner = document.getElementById("stateInner");
 const stateMessage = document.getElementById("stateMessage");
-const loader = document.getElementById("loader");
+const spinnerOverlay = document.getElementById("spinnerOverlay");
+const weatherIconEl = document.getElementById("weatherIcon");
 
 function setTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
@@ -55,7 +56,14 @@ function showState(message, { loading = false, isError = false } = {}) {
     if (!stateMessage) return;
     stateMessage.textContent = message;
     stateMessage.classList.toggle("error", isError);
-    if (loader) loader.hidden = !loading;
+    stateMessage.hidden = loading;
+    if (spinnerOverlay) {
+        spinnerOverlay.hidden = !loading;
+        if (loading) {
+            const spinnerText = spinnerOverlay.querySelector(".spinner-text");
+            if (spinnerText) spinnerText.textContent = message;
+        }
+    }
 }
 
 function formatTimeFromUnix(unix, tzOffsetSeconds) {
@@ -106,6 +114,13 @@ function renderWeather(data) {
     pressureEl.textContent = `${pressure} hPa`;
     minMaxEl.textContent = `${tempMin}° / ${tempMax}°`;
 
+    // Show weather icon from OpenWeather
+    if (weatherIconEl && condition.icon) {
+        weatherIconEl.src = `https://openweathermap.org/img/wn/${condition.icon}@2x.png`;
+        weatherIconEl.alt = condition.description || "Weather icon";
+        weatherIconEl.hidden = false;
+    }
+
     if (sys && typeof sys.sunrise === "number" && typeof sys.sunset === "number") {
         const sunrise = formatTimeFromUnix(sys.sunrise, timezone || 0);
         const sunset = formatTimeFromUnix(sys.sunset, timezone || 0);
@@ -114,6 +129,11 @@ function renderWeather(data) {
         sunTimesEl.textContent = "Sunrise — • Sunset —";
     }
 
+    // Re-trigger card animation by toggling a class
+    weatherCard.classList.remove("card-animate");
+    requestAnimationFrame(() => {
+        weatherCard.classList.add("card-animate");
+    });
     weatherCard.hidden = false;
 }
 
@@ -145,7 +165,8 @@ async function fetchWeatherByCity(city) {
         console.error(err);
         showState(err.message || "Something went wrong.", { isError: true });
     } finally {
-        if (loader) loader.hidden = true;
+        if (spinnerOverlay) spinnerOverlay.hidden = true;
+        if (stateMessage) stateMessage.hidden = false;
     }
 }
 
@@ -172,7 +193,8 @@ async function fetchWeatherByCoords(lat, lon) {
         console.error(err);
         showState(err.message || "Location-based lookup failed.", { isError: true });
     } finally {
-        if (loader) loader.hidden = true;
+        if (spinnerOverlay) spinnerOverlay.hidden = true;
+        if (stateMessage) stateMessage.hidden = false;
     }
 }
 

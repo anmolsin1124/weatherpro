@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minimal Weather</title>
+    <title>WeatherNow</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
     <div class="app">
@@ -26,14 +27,14 @@
               aria-label="City name"
               required
             />
-            <button type="submit" class="search-button">Search</button>
+            <button type="submit" class="search-button"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
             <button
               type="button"
               class="geo-button"
               id="geoButton"
               title="Use current location"
             >
-              ⦿
+              <i class="fa-solid fa-location-crosshairs"></i>
             </button>
           </form>
           <p class="hint">
@@ -52,38 +53,42 @@
 
           <div class="card-main">
             <div class="temp-block">
+              <img id="weatherIcon" class="weather-icon" src="" alt="" hidden />
               <p id="temperature" class="temperature">—°</p>
               <p id="feelsLike" class="feels-like">Feels like —°</p>
             </div>
             <div class="meta-block">
               <div class="meta-row">
-                <span class="meta-label">Condition</span>
+                <span class="meta-label"><i class="fa-solid fa-cloud"></i> Condition</span>
                 <span id="condition" class="meta-value">—</span>
               </div>
               <div class="meta-row">
-                <span class="meta-label">Humidity</span>
+                <span class="meta-label"><i class="fa-solid fa-droplet"></i> Humidity</span>
                 <span id="humidity" class="meta-value">—%</span>
               </div>
               <div class="meta-row">
-                <span class="meta-label">Wind</span>
+                <span class="meta-label"><i class="fa-solid fa-wind"></i> Wind</span>
                 <span id="wind" class="meta-value">— km/h</span>
               </div>
               <div class="meta-row">
-                <span class="meta-label">Pressure</span>
+                <span class="meta-label"><i class="fa-solid fa-gauge-high"></i> Pressure</span>
                 <span id="pressure" class="meta-value">— hPa</span>
               </div>
             </div>
           </div>
 
           <div class="card-footer">
-            <div class="pill" id="minMax">— / —°</div>
-            <div class="pill" id="sunTimes">Sunrise — • Sunset —</div>
+            <div class="pill" id="minMax"><i class="fa-solid fa-temperature-half"></i> — / —°</div>
+            <div class="pill" id="sunTimes"><i class="fa-solid fa-sun"></i> Sunrise — • Sunset —</div>
           </div>
         </section>
 
         <section class="state" id="stateSection">
           <div class="state-inner" id="stateInner">
-            <div class="loader" id="loader" hidden></div>
+            <div class="spinner-overlay" id="spinnerOverlay" hidden>
+              <div class="spinner"></div>
+              <p class="spinner-text">Fetching weather data…</p>
+            </div>
             <p id="stateMessage">Search for a city to see the weather.</p>
           </div>
         </section>
